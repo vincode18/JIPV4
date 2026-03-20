@@ -1,0 +1,329 @@
+@Metadata.layer: #CUSTOMER
+
+// =====================================================================
+// ENTITY-LEVEL ANNOTATIONS (must be BEFORE the { block)
+// =====================================================================
+
+@UI.headerInfo: {
+  typeName: 'JIP Part',
+  typeNamePlural: 'JIP Parts Aging',
+  title: { type: #STANDARD, value: 'WorkOrderNumber' },
+  description: { type: #STANDARD, value: 'MaterialNumber' }
+}
+
+// --- CHART DEFINITIONS ---
+@UI.chart: [
+  {
+    qualifier: 'ChartJIPPerPlant',
+    title: 'Total JIP per Plant',
+    chartType: #BAR,
+    dimensions: ['Plant', 'ActivityType'],
+    measures: ['RecordCount'],
+    dimensionAttributes: [
+      { dimension: 'Plant', role: #CATEGORY },
+      { dimension: 'ActivityType', role: #SERIES }
+    ],
+    measureAttributes: [{
+      measure: 'RecordCount',
+      role: #AXIS_1,
+      asDataPoint: true
+    }]
+  },
+  {
+    qualifier: 'ChartHistoricalJIP',
+    title: 'Historical JIP - All Plants',
+    chartType: #COLUMN_STACKED,
+    dimensions: ['PeriodMonth', 'AgingBucket'],
+    measures: ['RecordCount'],
+    dimensionAttributes: [
+      { dimension: 'PeriodMonth', role: #CATEGORY },
+      { dimension: 'AgingBucket', role: #SERIES }
+    ],
+    measureAttributes: [{
+      measure: 'RecordCount',
+      role: #AXIS_1,
+      asDataPoint: true
+    }]
+  },
+  {
+    qualifier: 'ChartAgingPerPlant',
+    title: 'Aging per Plant',
+    chartType: #COLUMN_STACKED,
+    dimensions: ['PeriodMonth', 'AgingBucket'],
+    measures: ['RecordCount'],
+    dimensionAttributes: [
+      { dimension: 'PeriodMonth', role: #CATEGORY },
+      { dimension: 'AgingBucket', role: #SERIES }
+    ],
+    measureAttributes: [{
+      measure: 'RecordCount',
+      role: #AXIS_1,
+      asDataPoint: true
+    }]
+  },
+  {
+    qualifier: 'ChartActivityBreakdown',
+    title: 'Activity Type by Plant',
+    chartType: #COLUMN_STACKED,
+    dimensions: ['PeriodMonth', 'ActivityType'],
+    measures: ['RecordCount'],
+    dimensionAttributes: [
+      { dimension: 'PeriodMonth', role: #CATEGORY },
+      { dimension: 'ActivityType', role: #SERIES }
+    ],
+    measureAttributes: [{
+      measure: 'RecordCount',
+      role: #AXIS_1,
+      asDataPoint: true
+    }]
+  },
+  {
+    qualifier: 'ChartMonthlyTrend',
+    title: 'Monthly Trend by Activity',
+    chartType: #COLUMN_STACKED,
+    dimensions: ['PeriodMonth', 'ActivityType'],
+    measures: ['RecordCount'],
+    dimensionAttributes: [
+      { dimension: 'PeriodMonth', role: #CATEGORY },
+      { dimension: 'ActivityType', role: #SERIES }
+    ],
+    measureAttributes: [{
+      measure: 'RecordCount',
+      role: #AXIS_1,
+      asDataPoint: true
+    }]
+  },
+  {
+    qualifier: 'ChartAvgAgingWithTarget',
+    title: 'Avg Aging vs Target by Plant & Activity',
+    chartType: #COMBINATION,
+    dimensions: ['PeriodMonth'],
+    measures: ['AgingRelease', 'TargetAgingDays'],
+    dimensionAttributes: [
+      { dimension: 'PeriodMonth', role: #CATEGORY }
+    ],
+    measureAttributes: [
+      {
+        measure: 'AgingRelease',
+        role: #AXIS_1,
+        asDataPoint: true
+      },
+      {
+        measure: 'TargetAgingDays',
+        role: #AXIS_1,
+        asDataPoint: true
+      }
+    ]
+  }
+]
+
+// --- PRESENTATION VARIANTS ---
+@UI.presentationVariant: [
+  {
+    qualifier: 'DefaultSort',
+    text: 'Default',
+    sortOrder: [
+      { by: 'Plant', direction: #ASC },
+      { by: 'AgingBucket', direction: #DESC },
+      { by: 'ActivityType', direction: #ASC }
+    ],
+    visualizations: [{
+      type: #AS_LINEITEM
+    }]
+  },
+  {
+    qualifier: 'PVChartByPlant',
+    text: 'By Plant',
+    sortOrder: [{ by: 'Plant', direction: #ASC }],
+    visualizations: [{
+      type: #AS_CHART,
+      qualifier: 'ChartJIPPerPlant'
+    }]
+  },
+  {
+    qualifier: 'PVChartHistorical',
+    text: 'Historical',
+    sortOrder: [{ by: 'PeriodMonth', direction: #ASC }],
+    visualizations: [{
+      type: #AS_CHART,
+      qualifier: 'ChartHistoricalJIP'
+    }]
+  },
+  {
+    qualifier: 'PVChartActivity',
+    text: 'By Activity',
+    sortOrder: [{ by: 'ActivityType', direction: #ASC }],
+    visualizations: [{
+      type: #AS_CHART,
+      qualifier: 'ChartActivityBreakdown'
+    }]
+  },
+  {
+    qualifier: 'PVAvgAgingTarget',
+    text: 'Avg Aging vs Target',
+    sortOrder: [{ by: 'PeriodMonth', direction: #ASC }],
+    visualizations: [{
+      type: #AS_CHART,
+      qualifier: 'ChartAvgAgingWithTarget'
+    }]
+  }
+]
+
+annotate view ZC_JIPV4_AGING with
+
+{
+  // =====================================================================
+  // FIELD-LEVEL ANNOTATIONS (each field appears ONCE with all annotations)
+  // =====================================================================
+
+  // --- WorkOrderNumber ---
+  @UI.lineItem: [{ position: 10, importance: #HIGH },
+                { qualifier: 'ActivityAging', position: 10, importance: #HIGH }]
+  @UI.selectionField: [{ position: 55 }]
+  @UI.identification: [{ position: 10 }]
+  @UI.fieldGroup: [{ qualifier: 'GrpWorkOrder', position: 10, label: 'Work Order' }]
+  WorkOrderNumber;
+
+  // --- MaterialNumber ---
+  @UI.lineItem: [{ position: 20, importance: #HIGH },
+                { qualifier: 'ActivityAging', position: 20, importance: #HIGH }]
+  @UI.identification: [{ position: 20 }]
+  MaterialNumber;
+
+  // --- ABCIndicator ---
+  @UI.lineItem: [{ position: 65, importance: #MEDIUM }]
+  @UI.selectionField: [{ position: 70 }]
+  @UI.fieldGroup: [{ qualifier: 'GrpWorkOrder', position: 40, label: 'ABC Indicator' }]
+  ABCIndicator;
+
+  // --- Plant ---
+  @UI.lineItem: [{ position: 30, importance: #HIGH },
+                { qualifier: 'ActivityAging', position: 30, importance: #HIGH }]
+  @UI.selectionField: [{ position: 10 }]
+  @UI.identification: [{ position: 30 }]
+  Plant;
+
+  // --- ActivityType ---
+  @UI.lineItem: [{ position: 40, importance: #HIGH },
+                { qualifier: 'ActivityAging', position: 40, importance: #HIGH }]
+  @UI.selectionField: [{ position: 20 }]
+  @UI.identification: [{ position: 40 }]
+  @UI.fieldGroup: [{ qualifier: 'GrpWorkOrder', position: 30, label: 'Activity Type' }]
+  ActivityType;
+
+  // --- AgingBucket ---
+  @UI.lineItem: [{ position: 55, importance: #HIGH, criticality: 'AgingCriticality' },
+                { qualifier: 'ActivityAging', position: 60, importance: #HIGH, criticality: 'AgingCriticality' }]
+  @UI.selectionField: [{ position: 30 }]
+  @UI.identification: [{ position: 50, criticality: 'AgingCriticality' }]
+  @UI.dataPoint: { title: 'Aging Bucket', criticality: 'AgingCriticality' }
+  @UI.fieldGroup: [{ qualifier: 'GrpWarehouse', position: 50, label: 'Aging Bucket', criticality: 'AgingCriticality' }]
+  AgingBucket;
+
+  // --- CurrentMilestone ---
+  @UI.lineItem: [{ position: 50, importance: #HIGH },
+                { qualifier: 'ActivityAging', position: 50, importance: #HIGH }]
+  @UI.selectionField: [{ position: 60 }]
+  @UI.dataPoint: { title: 'Current Milestone' }
+  @UI.fieldGroup: [{ qualifier: 'GrpWarehouse', position: 30, label: 'Current Milestone' }]
+  CurrentMilestone;
+
+  // --- WmEwmType ---
+  @UI.lineItem: [{ position: 70, importance: #MEDIUM }]
+  @UI.selectionField: [{ position: 40 }]
+  @UI.fieldGroup: [{ qualifier: 'GrpWarehouse', position: 10, label: 'WM/EWM Type' }]
+  WmEwmType;
+
+  // --- WarehouseNumber ---
+  @UI.lineItem: [{ position: 80, importance: #MEDIUM }]
+  @UI.selectionField: [{ position: 50 }]
+  @UI.fieldGroup: [{ qualifier: 'GrpWarehouse', position: 20, label: 'Warehouse Number' }]
+  WarehouseNumber;
+
+  // --- SoldToParty ---
+  @UI.lineItem: [{ position: 90, importance: #MEDIUM }]
+  @UI.fieldGroup: [{ qualifier: 'GrpCustomer', position: 10, label: 'Sold To Party' }]
+  SoldToParty;
+
+  // --- AgingRelease ---
+  @UI.lineItem: [{ position: 100, importance: #MEDIUM }]
+  @UI.dataPoint: { title: 'Aging Release (Days)', criticality: 'AgingCriticality' }
+  @UI.fieldGroup: [{ qualifier: 'GrpWarehouse', position: 40, label: 'Aging Release (Days)' }]
+  AgingRelease;
+
+  // --- QtyAvailCheck ---
+  @UI.lineItem: [{ position: 110, importance: #MEDIUM }]
+  @UI.fieldGroup: [{ qualifier: 'GrpQuantities', position: 10, label: 'Qty Avail Check' }]
+  QtyAvailCheck;
+
+  // --- QtyWithdrawn ---
+  @UI.lineItem: [{ position: 120, importance: #MEDIUM }]
+  @UI.fieldGroup: [{ qualifier: 'GrpQuantities', position: 20, label: 'Qty Withdrawn (GI)' }]
+  QtyWithdrawn;
+
+  // --- SDHApprovalDate ---
+  @UI.lineItem: [{ position: 130, importance: #LOW }]
+  @UI.fieldGroup: [{ qualifier: 'GrpMilestones', position: 10, label: 'SDH Approval' }]
+  SDHApprovalDate;
+
+  // --- ReleaseDate ---
+  @UI.lineItem: [{ position: 140, importance: #LOW }]
+  @UI.fieldGroup: [{ qualifier: 'GrpMilestones', position: 20, label: 'Release Date (FTRMI)' }]
+  ReleaseDate;
+
+  // --- WM_TRDate ---
+  @UI.lineItem: [{ position: 150, importance: #LOW }]
+  @UI.fieldGroup: [{ qualifier: 'GrpMilestones', position: 30, label: 'TR Date (WM)' }]
+  WM_TRDate;
+
+  // --- WM_ReceivedDate ---
+  @UI.lineItem: [{ position: 160, importance: #LOW }]
+  @UI.fieldGroup: [{ qualifier: 'GrpMilestones', position: 40, label: 'Received Date (WM)' }]
+  WM_ReceivedDate;
+
+  // --- EWM_ConfirmedAt ---
+  @UI.lineItem: [{ position: 170, importance: #LOW }]
+  @UI.fieldGroup: [{ qualifier: 'GrpMilestones', position: 50, label: 'Confirmed At (EWM)' }]
+  EWM_ConfirmedAt;
+
+  // --- GIDate ---
+  @UI.lineItem: [{ position: 180, importance: #LOW }]
+  @UI.fieldGroup: [{ qualifier: 'GrpMilestones', position: 60, label: 'GI Date' }]
+  GIDate;
+
+  // --- GINumber ---
+  @UI.lineItem: [{ position: 190, importance: #LOW }]
+  @UI.fieldGroup: [{ qualifier: 'GrpMilestones', position: 70, label: 'GI Number' }]
+  GINumber;
+
+  // --- PeriodMonth ---
+  @UI.lineItem: [{ position: 200, importance: #LOW }]
+  @UI.selectionField: [{ position: 80 }]
+  PeriodMonth;
+
+  // --- PeriodYear ---
+  @UI.selectionField: [{ position: 65 }]
+  PeriodYear;
+
+  // --- OrderType (no lineItem, only fieldGroup) ---
+  @UI.fieldGroup: [{ qualifier: 'GrpWorkOrder', position: 20, label: 'Order Type' }]
+  OrderType;
+
+  // --- WOCreationDate (no lineItem, only fieldGroup) ---
+  @UI.fieldGroup: [{ qualifier: 'GrpWorkOrder', position: 50, label: 'WO Creation Date' }]
+  WOCreationDate;
+
+  // --- EquipmentNumber (no lineItem, only fieldGroup) ---
+  @UI.fieldGroup: [{ qualifier: 'GrpWorkOrder', position: 60, label: 'Equipment' }]
+  EquipmentNumber;
+
+  // --- RecordCount ---
+  @UI.dataPoint: { title: 'Count' }
+  RecordCount;
+
+  // --- TargetAgingDays ---
+  @UI.dataPoint: {
+    title: 'Target Aging (Days)'
+  }
+  TargetAgingDays;
+}

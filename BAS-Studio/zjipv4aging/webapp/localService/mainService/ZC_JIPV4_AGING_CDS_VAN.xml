@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../../sap/zc_jipv4_aging_cds/$metadata">
+        <edmx:Include Namespace="ZC_JIPV4_AGING_CDS" Alias="SAP"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="zc_jipv4_aging_cds_van.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotations Target="ZC_JIPV4_AGING_CDS.ZC_JIPV4_AGINGType">
+                <Annotation Term="UI.Chart" Qualifier="ChartAvgAgingWithTarget">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="Avg Aging vs Target by Plant &amp; Activity"/>
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Combination"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>PeriodMonth</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="PeriodMonth"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>TargetAgingDays</PropertyPath>
+                                <PropertyPath>AgingRelease</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="TargetAgingDays"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#TargetAgingDays"/>
+                                </Record>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="AgingRelease"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#AgingRelease"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Chart" Qualifier="ChartMonthlyTrend">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="Monthly Trend by Activity"/>
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/ColumnStacked"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>ActivityType</PropertyPath>
+                                <PropertyPath>PeriodMonth</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="ActivityType"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Series"/>
+                                </Record>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="PeriodMonth"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>RecordCount</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="RecordCount"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#RecordCount"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Chart" Qualifier="ChartActivityBreakdown">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="Activity Type by Plant"/>
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/ColumnStacked"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>PeriodMonth</PropertyPath>
+                                <PropertyPath>ActivityType</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="PeriodMonth"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="ActivityType"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Series"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>RecordCount</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="RecordCount"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#RecordCount"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Chart" Qualifier="ChartAgingPerPlant">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="Aging per Plant"/>
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/ColumnStacked"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>AgingBucket</PropertyPath>
+                                <PropertyPath>PeriodMonth</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="AgingBucket"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Series"/>
+                                </Record>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="PeriodMonth"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>RecordCount</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="RecordCount"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#RecordCount"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Chart" Qualifier="ChartHistoricalJIP">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="Historical JIP - All Plants"/>
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/ColumnStacked"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>AgingBucket</PropertyPath>
+                                <PropertyPath>PeriodMonth</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="AgingBucket"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Series"/>
+                                </Record>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="PeriodMonth"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>RecordCount</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="RecordCount"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#RecordCount"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Chart" Qualifier="ChartJIPPerPlant">
+                    <Record Type="UI.ChartDefinitionType">
+                        <PropertyValue Property="Title" String="Total JIP per Plant"/>
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar"/>
+                        <PropertyValue Property="Dimensions">
+                            <Collection>
+                                <PropertyPath>Plant</PropertyPath>
+                                <PropertyPath>ActivityType</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="DimensionAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="Plant"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Category"/>
+                                </Record>
+                                <Record Type="UI.ChartDimensionAttributeType">
+                                    <PropertyValue Property="Dimension" PropertyPath="ActivityType"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartDimensionRoleType/Series"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Measures">
+                            <Collection>
+                                <PropertyPath>RecordCount</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="MeasureAttributes">
+                            <Collection>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="RecordCount"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
+                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#RecordCount"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="AgingBucket">
+                    <Record>
+                        <PropertyValue Property="Value" Path="AgingBucket"/>
+                        <PropertyValue Property="Title" String="Aging Bucket"/>
+                        <PropertyValue Property="Criticality" Path="AgingCriticality"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="AgingRelease">
+                    <Record>
+                        <PropertyValue Property="Value" Path="AgingRelease"/>
+                        <PropertyValue Property="Title" String="Aging Release (Days)"/>
+                        <PropertyValue Property="Criticality" Path="AgingCriticality"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="CurrentMilestone">
+                    <Record>
+                        <PropertyValue Property="Value" Path="CurrentMilestone"/>
+                        <PropertyValue Property="Title" String="Current Milestone"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="RecordCount">
+                    <Record>
+                        <PropertyValue Property="Value" Path="RecordCount"/>
+                        <PropertyValue Property="Title" String="Count"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="TargetAgingDays">
+                    <Record>
+                        <PropertyValue Property="Value" Path="TargetAgingDays"/>
+                        <PropertyValue Property="Title" String="Target Aging (Days)"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="GrpCustomer">
+                    <Record>
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Sold To Party"/>
+                                    <PropertyValue Property="Value" Path="SoldToParty"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="GrpMilestones">
+                    <Record>
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="SDH Approval"/>
+                                    <PropertyValue Property="Value" Path="SDHApprovalDate"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Release Date (FTRMI)"/>
+                                    <PropertyValue Property="Value" Path="ReleaseDate"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="TR Date (WM)"/>
+                                    <PropertyValue Property="Value" Path="WM_TRDate"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Received Date (WM)"/>
+                                    <PropertyValue Property="Value" Path="WM_ReceivedDate"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Confirmed At (EWM)"/>
+                                    <PropertyValue Property="Value" Path="EWM_ConfirmedAt"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="GI Date"/>
+                                    <PropertyValue Property="Value" Path="GIDate"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="GI Number"/>
+                                    <PropertyValue Property="Value" Path="GINumber"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="GrpQuantities">
+                    <Record>
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Qty Avail Check"/>
+                                    <PropertyValue Property="Value" Path="QtyAvailCheck"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Qty Withdrawn (GI)"/>
+                                    <PropertyValue Property="Value" Path="QtyWithdrawn"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="GrpWarehouse">
+                    <Record>
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="WM/EWM Type"/>
+                                    <PropertyValue Property="Value" Path="WmEwmType"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Warehouse Number"/>
+                                    <PropertyValue Property="Value" Path="WarehouseNumber"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Current Milestone"/>
+                                    <PropertyValue Property="Value" Path="CurrentMilestone"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Aging Release (Days)"/>
+                                    <PropertyValue Property="Value" Path="AgingRelease"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Aging Bucket"/>
+                                    <PropertyValue Property="Criticality" Path="AgingCriticality"/>
+                                    <PropertyValue Property="Value" Path="AgingBucket"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="GrpWorkOrder">
+                    <Record>
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Work Order"/>
+                                    <PropertyValue Property="Value" Path="WorkOrderNumber"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Order Type"/>
+                                    <PropertyValue Property="Value" Path="OrderType"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Activity Type"/>
+                                    <PropertyValue Property="Value" Path="ActivityType"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="ABC Indicator"/>
+                                    <PropertyValue Property="Value" Path="ABCIndicator"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="WO Creation Date"/>
+                                    <PropertyValue Property="Value" Path="WOCreationDate"/>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Label" String="Equipment"/>
+                                    <PropertyValue Property="Value" Path="EquipmentNumber"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="JIP Part"/>
+                        <PropertyValue Property="TypeNamePlural" String="JIP Parts Aging"/>
+                        <PropertyValue Property="Title">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="WorkOrderNumber"/>
+                            </Record>
+                        </PropertyValue>
+                        <PropertyValue Property="Description">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" Path="MaterialNumber"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="WorkOrderNumber"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="MaterialNumber"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Plant"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ActivityType"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Criticality" Path="AgingCriticality"/>
+                            <PropertyValue Property="Value" Path="AgingBucket"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="WorkOrderNumber"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="MaterialNumber"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Plant"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ActivityType"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="CurrentMilestone"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Criticality" Path="AgingCriticality"/>
+                            <PropertyValue Property="Value" Path="AgingBucket"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ABCIndicator"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="WmEwmType"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="WarehouseNumber"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="SoldToParty"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="AgingRelease"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="QtyAvailCheck"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="QtyWithdrawn"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Medium"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="SDHApprovalDate"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ReleaseDate"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="WM_TRDate"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="WM_ReceivedDate"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="EWM_ConfirmedAt"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="GIDate"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="GINumber"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="PeriodMonth"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/Low"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem" Qualifier="ActivityAging">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="WorkOrderNumber"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="MaterialNumber"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Plant"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ActivityType"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="CurrentMilestone"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Criticality" Path="AgingCriticality"/>
+                            <PropertyValue Property="Value" Path="AgingBucket"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant" Qualifier="PVAvgAgingTarget">
+                    <Record>
+                        <PropertyValue Property="Text" String="Avg Aging vs Target"/>
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="PeriodMonth"/>
+                                    <PropertyValue Property="Descending" Bool="false"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.Chart#ChartAvgAgingWithTarget</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant" Qualifier="PVChartActivity">
+                    <Record>
+                        <PropertyValue Property="Text" String="By Activity"/>
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="ActivityType"/>
+                                    <PropertyValue Property="Descending" Bool="false"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.Chart#ChartActivityBreakdown</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant" Qualifier="PVChartHistorical">
+                    <Record>
+                        <PropertyValue Property="Text" String="Historical"/>
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="PeriodMonth"/>
+                                    <PropertyValue Property="Descending" Bool="false"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.Chart#ChartHistoricalJIP</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant" Qualifier="PVChartByPlant">
+                    <Record>
+                        <PropertyValue Property="Text" String="By Plant"/>
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="Plant"/>
+                                    <PropertyValue Property="Descending" Bool="false"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.Chart#ChartJIPPerPlant</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant" Qualifier="DefaultSort">
+                    <Record>
+                        <PropertyValue Property="Text" String="Default"/>
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="Plant"/>
+                                    <PropertyValue Property="Descending" Bool="false"/>
+                                </Record>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="AgingBucket"/>
+                                    <PropertyValue Property="Descending" Bool="true"/>
+                                </Record>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="ActivityType"/>
+                                    <PropertyValue Property="Descending" Bool="false"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@UI.LineItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>Plant</PropertyPath>
+                        <PropertyPath>ActivityType</PropertyPath>
+                        <PropertyPath>AgingBucket</PropertyPath>
+                        <PropertyPath>WmEwmType</PropertyPath>
+                        <PropertyPath>WarehouseNumber</PropertyPath>
+                        <PropertyPath>WorkOrderNumber</PropertyPath>
+                        <PropertyPath>CurrentMilestone</PropertyPath>
+                        <PropertyPath>PeriodYear</PropertyPath>
+                        <PropertyPath>ABCIndicator</PropertyPath>
+                        <PropertyPath>PeriodMonth</PropertyPath>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

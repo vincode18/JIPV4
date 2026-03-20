@@ -1,0 +1,263 @@
+{
+  "_version": "1.58.0",
+  "sap.app": {
+    "id": "com.sap.jipv4.zjipv4aging",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:ovp",
+      "version": "1.21.0",
+      "toolsId": "40d5bac8-b89b-4cd3-960d-2a204aa8fd78"
+    },
+    "dataSources": {
+      "ZC_JIPV4_AGING_CDS_VAN": {
+        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZC_JIPV4_AGING_CDS_VAN',Version='0001')/$value/",
+        "type": "ODataAnnotation",
+        "settings": {
+          "localUri": "localService/mainService/ZC_JIPV4_AGING_CDS_VAN.xml"
+        }
+      },
+      "annotation": {
+        "type": "ODataAnnotation",
+        "uri": "annotations/annotation.xml",
+        "settings": {
+          "localUri": "annotations/annotation.xml"
+        }
+      },
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZC_JIPV4_AGING_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "ZC_JIPV4_AGING_CDS_VAN",
+            "annotation"
+          ],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "JIPAging-display": {
+          "semanticObject": "JIPAging",
+          "action": "display",
+          "title": "{{JIPAging-display.flpTitle}}",
+          "subTitle": "{{JIPAging-display.flpSubtitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ushell": {},
+        "sap.f": {},
+        "sap.ui.comp": {},
+        "sap.ui.generic.app": {},
+        "sap.suite.ui.generic.template": {},
+        "sap.ovp": {},
+        "sap.ui.rta": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "com.sap.jipv4.zjipv4aging.i18n.i18n"
+        }
+      },
+      "mainModel": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "refreshAfterChange": false,
+          "metadataUrlParams": {
+            "sap-value-list": "none"
+          }
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [],
+      "targets": {}
+    }
+  },
+  "sap.ovp": {
+    "globalFilterModel": "mainModel",
+    "globalFilterEntityType": "ZC_JIPV4_AGINGType",
+    "containerLayout": "resizable",
+    "enableLiveFilter": true,
+    "considerAnalyticalParameters": false,
+    "showDateInRelativeFormat": false,
+    "cards": {
+
+      "card01_JIPPerPlant": {
+        "model": "mainModel",
+        "template": "sap.ovp.cards.charts.analytical",
+        "settings": {
+          "title": "{{card01_title}}",
+          "subtitle": "{{card01_subtitle}}",
+          "entitySet": "ZC_JIPV4_AGING",
+          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
+          "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartJIPPerPlant",
+          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVChartByPlant",
+          "navigation": "dataPointNav",
+          "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+        }
+      },
+
+      "card02_HistoricalJIP": {
+        "model": "mainModel",
+        "template": "sap.ovp.cards.charts.analytical",
+        "settings": {
+          "title": "{{card02_title}}",
+          "subtitle": "{{card02_subtitle}}",
+          "entitySet": "ZC_JIPV4_AGING",
+          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
+          "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartHistoricalJIP",
+          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVChartHistorical"
+        }
+      },
+
+      "card03_AgingPerPlant": {
+        "model": "mainModel",
+        "template": "sap.ovp.cards.charts.analytical",
+        "settings": {
+          "title": "{{card03_title}}",
+          "subtitle": "{{card03_subtitle}}",
+          "entitySet": "ZC_JIPV4_AGING",
+          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
+          "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartAgingPerPlant",
+          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVChartHistorical",
+          "navigation": "dataPointNav",
+          "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+        }
+      },
+
+      "card04_ActivityBreakdown": {
+        "model": "mainModel",
+        "template": "sap.ovp.cards.charts.analytical",
+        "settings": {
+          "title": "{{card04_title}}",
+          "subtitle": "{{card04_subtitle}}",
+          "entitySet": "ZC_JIPV4_AGING",
+          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
+          "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartActivityBreakdown",
+          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVChartActivity"
+        }
+      },
+
+      "card05_MonthlyTrend": {
+        "model": "mainModel",
+        "template": "sap.ovp.cards.charts.analytical",
+        "settings": {
+          "title": "{{card05_title}}",
+          "subtitle": "{{card05_subtitle}}",
+          "entitySet": "ZC_JIPV4_AGING",
+          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
+          "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartMonthlyTrend",
+          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVChartHistorical"
+        }
+      },
+
+      "card06_AvgAging": {
+        "model": "mainModel",
+        "template": "sap.ovp.cards.charts.analytical",
+        "settings": {
+          "title": "{{card06_title}}",
+          "subtitle": "{{card06_subtitle}}",
+          "entitySet": "ZC_JIPV4_AGING",
+          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
+          "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartAvgAgingWithTarget",
+          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVAvgAgingTarget",
+          "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TargetAgingDays",
+          "navigation": "dataPointNav",
+          "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+        }
+      },
+
+      "card07_AgingTable": {
+        "model": "mainModel",
+        "template": "sap.ovp.cards.table",
+        "settings": {
+          "title": "{{card07_title}}",
+          "subtitle": "{{card07_subtitle}}",
+          "entitySet": "ZC_JIPV4_AGING",
+          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
+          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DefaultSort",
+          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+          "sortBy": "Plant",
+          "sortOrder": "ascending",
+          "addODataSelect": true
+        }
+      },
+
+      "card08_ActivityAgingTable": {
+        "model": "mainModel",
+        "template": "sap.ovp.cards.table",
+        "settings": {
+          "title": "{{card08_title}}",
+          "subtitle": "{{card08_subtitle}}",
+          "entitySet": "ZC_JIPV4_AGING",
+          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
+          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVChartActivity",
+          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ActivityAging",
+          "sortBy": "ActivityType",
+          "sortOrder": "ascending",
+          "addODataSelect": true
+        }
+      }
+
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "analytical"
+  }
+}

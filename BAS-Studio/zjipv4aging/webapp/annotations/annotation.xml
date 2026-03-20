@@ -1,0 +1,94 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/sap/ZC_JIPV4_AGING_CDS/$metadata">
+        <edmx:Include Namespace="ZC_JIPV4_AGING_CDS" Alias="SAP"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+
+            <Annotations Target="SAP.ZC_JIPV4_AGINGType">
+
+                <!-- Selection Variant: Open Items (Exclude GI completed) -->
+                <Annotation Term="UI.SelectionVariant" Qualifier="SVOpenItems">
+                    <Record>
+                        <PropertyValue Property="Text" String="{@i18n>svOpenItemsText}"/>
+                        <PropertyValue Property="SelectOptions">
+                            <Collection>
+                                <Record Type="UI.SelectOptionType">
+                                    <PropertyValue Property="PropertyName"
+                                                   PropertyPath="CurrentMilestone"/>
+                                    <PropertyValue Property="Ranges">
+                                        <Collection>
+                                            <Record Type="UI.SelectionRangeType">
+                                                <PropertyValue Property="Sign"
+                                                               EnumMember="UI.SelectionRangeSignType/E"/>
+                                                <PropertyValue Property="Option"
+                                                               EnumMember="UI.SelectionRangeOptionType/EQ"/>
+                                                <PropertyValue Property="Low" String="GI"/>
+                                            </Record>
+                                        </Collection>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <!-- Selection Variant: Critical Aging (60+ and 70+ only, exclude OK) -->
+                <Annotation Term="UI.SelectionVariant" Qualifier="SVCriticalAging">
+                    <Record>
+                        <PropertyValue Property="Text" String="{@i18n>svCriticalAgingText}"/>
+                        <PropertyValue Property="SelectOptions">
+                            <Collection>
+                                <Record Type="UI.SelectOptionType">
+                                    <PropertyValue Property="PropertyName"
+                                                   PropertyPath="AgingBucket"/>
+                                    <PropertyValue Property="Ranges">
+                                        <Collection>
+                                            <Record Type="UI.SelectionRangeType">
+                                                <PropertyValue Property="Sign"
+                                                               EnumMember="UI.SelectionRangeSignType/E"/>
+                                                <PropertyValue Property="Option"
+                                                               EnumMember="UI.SelectionRangeOptionType/EQ"/>
+                                                <PropertyValue Property="Low" String="OK"/>
+                                            </Record>
+                                        </Collection>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+                <!-- Selection Variant: EWM Plants Only -->
+                <Annotation Term="UI.SelectionVariant" Qualifier="SVEWMOnly">
+                    <Record>
+                        <PropertyValue Property="Text" String="{@i18n>svEWMOnlyText}"/>
+                        <PropertyValue Property="SelectOptions">
+                            <Collection>
+                                <Record Type="UI.SelectOptionType">
+                                    <PropertyValue Property="PropertyName"
+                                                   PropertyPath="WmEwmType"/>
+                                    <PropertyValue Property="Ranges">
+                                        <Collection>
+                                            <Record Type="UI.SelectionRangeType">
+                                                <PropertyValue Property="Sign"
+                                                               EnumMember="UI.SelectionRangeSignType/I"/>
+                                                <PropertyValue Property="Option"
+                                                               EnumMember="UI.SelectionRangeOptionType/EQ"/>
+                                                <PropertyValue Property="Low" String="EWM"/>
+                                            </Record>
+                                        </Collection>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

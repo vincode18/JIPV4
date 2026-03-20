@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "4.0"
+metadata:
+  name: com.sap.jipv4.zjipv4aging
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          destination: UTD030_new
+          url: http://sapdevapp1.unitedtractors.com:8050/
+          client: '030'
+        app:
+          name: ZJIPV4_AG_OVP
+          description: JIP Parts Aging Monitoring
+          package: $TMP
+          transport: ''
+        exclude:
+          - /test/
