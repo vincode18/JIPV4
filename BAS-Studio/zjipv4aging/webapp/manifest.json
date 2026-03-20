@@ -206,17 +206,16 @@
         }
       },
 
-      "card06_AvgAging": {
+      "card06_PendingByActivity": {
         "model": "mainModel",
         "template": "sap.ovp.cards.charts.analytical",
         "settings": {
           "title": "{{card06_title}}",
           "subtitle": "{{card06_subtitle}}",
           "entitySet": "ZC_JIPV4_AGING",
-          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
-          "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartAvgAgingWithTarget",
-          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVAvgAgingTarget",
-          "dataPointAnnotationPath": "com.sap.vocabularies.UI.v1.DataPoint#TargetAgingDays",
+          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVPendingOnly",
+          "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartPendingByActivity",
+          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVPendingByActivity",
           "navigation": "dataPointNav",
           "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
         }

@@ -317,7 +317,27 @@ npm run start-noflp
 - [ ] Card 06 target line shows 15 days (flat reference line)
 
 ### Deployment
+
 - [ ] `manifest.json` — Valid JSON, 8 cards
 - [ ] Preview working in BAS
 - [ ] Deployed to ABAP repository
 - [ ] FLP tile functional
+
+---
+
+## 13. BAS IDE Troubleshooting
+
+### Schema Validation Warning
+
+If you see this warning in BAS:
+
+```text
+Unable to load schema from 'manifest-schema://local': No content. (severity: warning)
+```
+
+**Cause:** SAP Fiori Tools extension couldn't load its internal manifest schema for IntelliSense. This is a **BAS IDE cosmetic issue only** — it does NOT affect app runtime or deployment.
+
+**Solutions:**
+1. **Ignore it** — The app runs normally. Severity 4 = Warning, not Error.
+2. **Reload BAS window** — `Ctrl+Shift+P` → `Developer: Reload Window` to restart the extension host.
+3. **Continue with `npm run start`** — The dashboard will render correctly despite the warning.
