@@ -190,6 +190,18 @@
     }]
   },
   {
+    qualifier: 'PVActivityAgingTable',
+    text: 'Activity Aging Summary',
+    sortOrder: [
+      { by: 'PeriodMonth', direction: #DESC },
+      { by: 'ActivityType', direction: #ASC }
+    ],
+    visualizations: [{
+      type: #AS_LINEITEM,
+      qualifier: 'ActivityAging'
+    }]
+  },
+  {
     qualifier: 'PVAvgAgingTarget',
     text: 'Avg Aging vs Target',
     sortOrder: [{ by: 'PeriodMonth', direction: #ASC }],
@@ -208,16 +220,14 @@ annotate view ZC_JIPV4_AGING with
   // =====================================================================
 
   // --- WorkOrderNumber ---
-  @UI.lineItem: [{ position: 10, importance: #HIGH },
-                { qualifier: 'ActivityAging', position: 10, importance: #HIGH }]
+  @UI.lineItem: [{ position: 10, importance: #HIGH }]
   @UI.selectionField: [{ position: 55 }]
   @UI.identification: [{ position: 10 }]
   @UI.fieldGroup: [{ qualifier: 'GrpWorkOrder', position: 10, label: 'Work Order' }]
   WorkOrderNumber;
 
   // --- MaterialNumber ---
-  @UI.lineItem: [{ position: 20, importance: #HIGH },
-                { qualifier: 'ActivityAging', position: 20, importance: #HIGH }]
+  @UI.lineItem: [{ position: 20, importance: #HIGH }]
   @UI.identification: [{ position: 20 }]
   MaterialNumber;
 
@@ -229,22 +239,21 @@ annotate view ZC_JIPV4_AGING with
 
   // --- Plant ---
   @UI.lineItem: [{ position: 30, importance: #HIGH },
-                { qualifier: 'ActivityAging', position: 30, importance: #HIGH }]
+                { qualifier: 'ActivityAging', position: 20, importance: #HIGH }]
   @UI.selectionField: [{ position: 10 }]
   @UI.identification: [{ position: 30 }]
   Plant;
 
   // --- ActivityType ---
   @UI.lineItem: [{ position: 40, importance: #HIGH },
-                { qualifier: 'ActivityAging', position: 40, importance: #HIGH }]
+                { qualifier: 'ActivityAging', position: 30, importance: #HIGH }]
   @UI.selectionField: [{ position: 20 }]
   @UI.identification: [{ position: 40 }]
   @UI.fieldGroup: [{ qualifier: 'GrpWorkOrder', position: 30, label: 'Activity Type' }]
   ActivityType;
 
   // --- AgingBucket ---
-  @UI.lineItem: [{ position: 55, importance: #HIGH, criticality: 'AgingCriticality' },
-                { qualifier: 'ActivityAging', position: 60, importance: #HIGH, criticality: 'AgingCriticality' }]
+  @UI.lineItem: [{ position: 55, importance: #HIGH, criticality: 'AgingCriticality' }]
   @UI.selectionField: [{ position: 30 }]
   @UI.identification: [{ position: 50, criticality: 'AgingCriticality' }]
   @UI.dataPoint: { title: 'Aging Bucket', criticality: 'AgingCriticality' }
@@ -253,7 +262,7 @@ annotate view ZC_JIPV4_AGING with
 
   // --- CurrentMilestone ---
   @UI.lineItem: [{ position: 50, importance: #HIGH },
-                { qualifier: 'ActivityAging', position: 50, importance: #HIGH }]
+                { qualifier: 'ActivityAging', position: 40, importance: #HIGH }]
   @UI.selectionField: [{ position: 60 }]
   @UI.dataPoint: { title: 'Current Milestone' }
   @UI.fieldGroup: [{ qualifier: 'GrpWarehouse', position: 30, label: 'Current Milestone' }]
@@ -328,7 +337,8 @@ annotate view ZC_JIPV4_AGING with
   GINumber;
 
   // --- PeriodMonth ---
-  @UI.lineItem: [{ position: 200, importance: #LOW }]
+  @UI.lineItem: [{ position: 200, importance: #LOW },
+                { qualifier: 'ActivityAging', position: 10, importance: #HIGH }]
   @UI.selectionField: [{ position: 80 }]
   PeriodMonth;
 
@@ -349,6 +359,7 @@ annotate view ZC_JIPV4_AGING with
   EquipmentNumber;
 
   // --- RecordCount ---
+  @UI.lineItem: [{ qualifier: 'ActivityAging', position: 50, importance: #HIGH, label: 'Items' }]
   @UI.dataPoint: { title: 'Count' }
   RecordCount;
 

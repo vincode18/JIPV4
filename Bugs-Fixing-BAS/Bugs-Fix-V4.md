@@ -196,10 +196,152 @@ TargetAgingDays,
 
 ---
 
+## Bug Fix: Card 08 — "Total Aging Table" (Activity Aging Summary)
+
+**Date:** 2026-03-21  
+**Problem:** Card 08 displayed "No data" or showed irrelevant item-level detail columns (Order, Material). Users needed a summary view showing pending item counts per Period, Plant, Activity Type, and Status.
+
+### Root Cause
+
+Card 08 used `PVChartActivity` (a chart-oriented PresentationVariant) instead of a table-specific PV. The `LineItem#ActivityAging` columns showed individual work order details (WorkOrderNumber, MaterialNumber) instead of summary-oriented fields.
+
+### Fix Applied
+
+**Redesigned `LineItem#ActivityAging` columns:**
+
+| Position | Field | Label | Purpose |
+|----------|-------|-------|---------|
+| 10 | PeriodMonth | Period | Month period (e.g., 2025-10) |
+| 20 | Plant | Plant | Plant code (JKT, BJM, etc.) |
+| 30 | ActivityType | Activity | Activity type (USW, MID, ADD, etc.) |
+| 40 | CurrentMilestone | Status | Milestone status (PENDING, TR_REQUEST, etc.) |
+| 50 | RecordCount | Items | Count of pending items |
+
+**Removed from `LineItem#ActivityAging`:** WorkOrderNumber, MaterialNumber, AgingBucket (item-level detail not useful for summary)
+
+**New PresentationVariant `PVActivityAgingTable`:**
+- Sorts by PeriodMonth descending (newest first), then ActivityType ascending
+- Links to `@UI.LineItem#ActivityAging`
+
+**manifest.json Card 08 update:**
+- Changed `presentationAnnotationPath` from `PVChartActivity` to `PVActivityAgingTable`
+- Changed `sortBy` from `ActivityType` to `PeriodMonth` descending
+
+### Files Changed
+
+| File | Change |
+|------|--------|
+| `ZC_JIPV4_AGING_CDS_VAN.xml` | Redesigned `LineItem#ActivityAging` columns + added `PVActivityAgingTable` |
+| `ZE_JIPV4_AGING.asddlx` | Updated field annotations for `ActivityAging` + added `PVActivityAgingTable` |
+| `manifest.json` | Card 08 uses `PVActivityAgingTable`, sorts by PeriodMonth desc |
+
+### MDE Changes (ZE_JIPV4_AGING.asddlx)
+
+**New PresentationVariant:**
+
+```abap
+{
+  qualifier: 'PVActivityAgingTable',
+  text: 'Activity Aging Summary',
+  sortOrder: [
+    { by: 'PeriodMonth', direction: #DESC },
+    { by: 'ActivityType', direction: #ASC }
+  ],
+  visualizations: [{
+    type: #AS_LINEITEM,
+    qualifier: 'ActivityAging'
+  }]
+}
+```
+
+**Updated field annotations (ActivityAging qualifier):**
+
+```abap
+// PeriodMonth — added to ActivityAging at position 10
+@UI.lineItem: [{ position: 200, importance: #LOW },
+              { qualifier: 'ActivityAging', position: 10, importance: #HIGH }]
+
+// Plant — position changed to 20 in ActivityAging
+// ActivityType — position changed to 30 in ActivityAging
+// CurrentMilestone — position changed to 40 in ActivityAging
+
+// RecordCount — added to ActivityAging at position 50
+@UI.lineItem: [{ qualifier: 'ActivityAging', position: 50, importance: #HIGH, label: 'Items' }]
+
+// Removed from ActivityAging: WorkOrderNumber, MaterialNumber, AgingBucket
+```
+
+### VAN.xml — LineItem#ActivityAging
+
+```xml
+<Annotation Term="UI.LineItem" Qualifier="ActivityAging">
+  <Collection>
+    <Record Type="UI.DataField">
+      <PropertyValue Property="Value" Path="PeriodMonth"/>
+      <PropertyValue Property="Label" String="Period"/>
+      <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+    </Record>
+    <Record Type="UI.DataField">
+      <PropertyValue Property="Value" Path="Plant"/>
+      <PropertyValue Property="Label" String="Plant"/>
+      <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+    </Record>
+    <Record Type="UI.DataField">
+      <PropertyValue Property="Value" Path="ActivityType"/>
+      <PropertyValue Property="Label" String="Activity"/>
+      <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+    </Record>
+    <Record Type="UI.DataField">
+      <PropertyValue Property="Value" Path="CurrentMilestone"/>
+      <PropertyValue Property="Label" String="Status"/>
+      <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+    </Record>
+    <Record Type="UI.DataField">
+      <PropertyValue Property="Value" Path="RecordCount"/>
+      <PropertyValue Property="Label" String="Items"/>
+      <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+    </Record>
+  </Collection>
+</Annotation>
+```
+
+### manifest.json — Card 08
+
+**Note:** Removed `presentationAnnotationPath` — OVP table cards resolve `LineItem` directly from `annotationPath`, not from the PV's Visualizations. Using a PV here caused "No data". Card 07 works without a PV, so follow the same proven pattern.
+
+```json
+"card08_ActivityAgingTable": {
+  "model": "mainModel",
+  "template": "sap.ovp.cards.table",
+  "settings": {
+    "title": "{{card08_title}}",
+    "subtitle": "{{card08_subtitle}}",
+    "entitySet": "ZC_JIPV4_AGING",
+    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
+    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ActivityAging",
+    "sortBy": "PeriodMonth",
+    "sortOrder": "descending",
+    "addODataSelect": true
+  }
+}
+```
+
+### User Experience
+
+When user filters by Plant (e.g., JKT) and PeriodMonth (e.g., 2025-10), Card 08 shows:
+
+| Period | Plant | Activity | Status | Items |
+|--------|-------|----------|--------|-------|
+| 2025-10 | JKT | MID | PENDING | 15 |
+| 2025-10 | JKT | USW | TR_REQUEST | 8 |
+| 2025-10 | JKT | ADD | PENDING | 3 |
+
+---
+
 ## Backend Activation Checklist
 
 After updating the files, the following must be activated on the ABAP backend (ADT/Eclipse):
 
 - [ ] `ZC_JIPV4_AGING` — CDS consumption view (for `@DefaultAggregation: #AVG`)
-- [ ] `ZE_JIPV4_AGING` — MDE (for `ChartPendingByActivity` + `PVPendingByActivity`)
+- [ ] `ZE_JIPV4_AGING` — MDE (for Card 06 + Card 08 changes)
 - [ ] Restart BAS preview + hard refresh browser (`Ctrl+Shift+R`)

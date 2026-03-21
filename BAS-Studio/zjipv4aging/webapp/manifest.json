@@ -227,10 +227,9 @@
           "subtitle": "{{card07_subtitle}}",
           "entitySet": "ZC_JIPV4_AGING",
           "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
-          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#DefaultSort",
-          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
-          "sortBy": "Plant",
-          "sortOrder": "ascending",
+          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ActivityAging",
+          "sortBy": "PeriodMonth",
+          "sortOrder": "descending",
           "addODataSelect": true
         }
       },
@@ -243,9 +242,8 @@
           "subtitle": "{{card08_subtitle}}",
           "entitySet": "ZC_JIPV4_AGING",
           "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
-          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVChartActivity",
-          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ActivityAging",
-          "sortBy": "ActivityType",
+          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AgingDetail",
+          "sortBy": "Plant",
           "sortOrder": "ascending",
           "addODataSelect": true
         }
