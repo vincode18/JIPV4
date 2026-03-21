@@ -213,11 +213,9 @@
           "title": "{{card06_title}}",
           "subtitle": "{{card06_subtitle}}",
           "entitySet": "ZC_JIPV4_AGING",
-          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVPendingOnly",
+          "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
           "chartAnnotationPath": "com.sap.vocabularies.UI.v1.Chart#ChartPendingByActivity",
-          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVPendingByActivity",
-          "navigation": "dataPointNav",
-          "identificationAnnotationPath": "com.sap.vocabularies.UI.v1.Identification"
+          "presentationAnnotationPath": "com.sap.vocabularies.UI.v1.PresentationVariant#PVPendingByActivity"
         }
       },
 

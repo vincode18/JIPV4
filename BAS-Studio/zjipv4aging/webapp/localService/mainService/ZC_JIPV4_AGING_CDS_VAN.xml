@@ -15,7 +15,7 @@
                 <Annotation Term="UI.Chart" Qualifier="ChartPendingByActivity">
                     <Record Type="UI.ChartDefinitionType">
                         <PropertyValue Property="Title" String="Pending Items by Activity"/>
-                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Bar"/>
+                        <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Combination"/>
                         <PropertyValue Property="Dimensions">
                             <Collection>
                                 <PropertyPath>ActivityType</PropertyPath>
@@ -32,6 +32,7 @@
                         <PropertyValue Property="Measures">
                             <Collection>
                                 <PropertyPath>RecordCount</PropertyPath>
+                                <PropertyPath>TargetAgingDays</PropertyPath>
                             </Collection>
                         </PropertyValue>
                         <PropertyValue Property="MeasureAttributes">
@@ -39,7 +40,10 @@
                                 <Record Type="UI.ChartMeasureAttributeType">
                                     <PropertyValue Property="Measure" PropertyPath="RecordCount"/>
                                     <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
-                                    <PropertyValue Property="DataPoint" AnnotationPath="@UI.DataPoint#RecordCount"/>
+                                </Record>
+                                <Record Type="UI.ChartMeasureAttributeType">
+                                    <PropertyValue Property="Measure" PropertyPath="TargetAgingDays"/>
+                                    <PropertyValue Property="Role" EnumMember="UI.ChartMeasureRoleType/Axis1"/>
                                 </Record>
                             </Collection>
                         </PropertyValue>

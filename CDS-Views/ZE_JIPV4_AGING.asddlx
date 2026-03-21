@@ -94,6 +94,28 @@
     }]
   },
   {
+    qualifier: 'ChartPendingByActivity',
+    title: 'Pending Items by Activity',
+    chartType: #COMBINATION,
+    dimensions: ['ActivityType'],
+    measures: ['RecordCount', 'TargetAgingDays'],
+    dimensionAttributes: [
+      { dimension: 'ActivityType', role: #CATEGORY }
+    ],
+    measureAttributes: [
+      {
+        measure: 'RecordCount',
+        role: #AXIS_1,
+        asDataPoint: true
+      },
+      {
+        measure: 'TargetAgingDays',
+        role: #AXIS_1,
+        asDataPoint: true
+      }
+    ]
+  },
+  {
     qualifier: 'ChartAvgAgingWithTarget',
     title: 'Avg Aging vs Target by Plant & Activity',
     chartType: #COMBINATION,
@@ -156,6 +178,15 @@
     visualizations: [{
       type: #AS_CHART,
       qualifier: 'ChartActivityBreakdown'
+    }]
+  },
+  {
+    qualifier: 'PVPendingByActivity',
+    text: 'Pending by Activity',
+    sortOrder: [{ by: 'ActivityType', direction: #ASC }],
+    visualizations: [{
+      type: #AS_CHART,
+      qualifier: 'ChartPendingByActivity'
     }]
   },
   {

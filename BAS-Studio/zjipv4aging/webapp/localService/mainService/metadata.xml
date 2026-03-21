@@ -44,18 +44,18 @@
                 <Property Name="WorkOrderNumber" Type="Edm.String" MaxLength="12" sap:display-format="NonNegative" sap:label="Order" sap:quickinfo="Order Number"/>
                 <Property Name="MaterialNumber" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
                 <Property Name="ABCIndicator" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="ABC Indicator" sap:quickinfo="ABC Indicator for Technical Object"/>
-                <Property Name="Plant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant" sap:aggregation-role="dimension"/>
                 <Property Name="StorageLocation" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Storage Location"/>
                 <Property Name="OrderType" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Order Type"/>
-                <Property Name="ActivityType" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="MaintActivityType" sap:quickinfo="Maintenance activity type"/>
-                <Property Name="CurrentMilestone" Type="Edm.String" MaxLength="12"/>
-                <Property Name="AgingBucket" Type="Edm.String" MaxLength="3"/>
+                <Property Name="ActivityType" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="MaintActivityType" sap:quickinfo="Maintenance activity type" sap:aggregation-role="dimension"/>
+                <Property Name="CurrentMilestone" Type="Edm.String" MaxLength="12" sap:aggregation-role="dimension"/>
+                <Property Name="AgingBucket" Type="Edm.String" MaxLength="3" sap:aggregation-role="dimension"/>
                 <Property Name="WmEwmType" Type="Edm.String" MaxLength="3"/>
                 <Property Name="WarehouseNumber" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Warehouse Number" sap:quickinfo="Warehouse Number/Warehouse Complex"/>
                 <Property Name="SoldToParty" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Sold-to Party"/>
                 <Property Name="EquipmentNumber" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Equipment" sap:quickinfo="Equipment Number"/>
                 <Property Name="WOCreationDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Created On"/>
-                <Property Name="AgingRelease" Type="Edm.Decimal" Precision="10" Scale="2"/>
+                <Property Name="AgingRelease" Type="Edm.Decimal" Precision="10" Scale="2" sap:aggregation-role="measure"/>
                 <Property Name="RequirementQty" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="P5219DA14C4FBB931673F5BA47B48BD2C" sap:label="Requirement Quantity"/>
                 <Property Name="QtyAvailCheck" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="P5219DA14C4FBB931673F5BA47B48BD2C" sap:label="Qty. for avail.check" sap:quickinfo="Confirmed quantity for availability check in SKU"/>
                 <Property Name="QtyWithdrawn" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="P5219DA14C4FBB931673F5BA47B48BD2C" sap:label="Quantity withdrawn"/>
@@ -66,14 +66,14 @@
                 <Property Name="EWM_ConfirmedAt" Type="Edm.Decimal" Precision="15" Scale="0" sap:label="Confirmation Time" sap:quickinfo="Time of Confirmation"/>
                 <Property Name="GIDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Posting Date" sap:quickinfo="Posting Date in the Document"/>
                 <Property Name="GINumber" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Material Document" sap:quickinfo="Number of Material Document"/>
-                <Property Name="PeriodMonth" Type="Edm.String" MaxLength="7"/>
+                <Property Name="PeriodMonth" Type="Edm.String" MaxLength="7" sap:aggregation-role="dimension"/>
                 <Property Name="PeriodYear" Type="Edm.String" MaxLength="4" sap:label="Period Year"/>
-                <Property Name="RecordCount" Type="Edm.Int32" sap:label="Count"/>
-                <Property Name="TargetAgingDays" Type="Edm.Decimal" Precision="10" Scale="2"/>
+                <Property Name="RecordCount" Type="Edm.Int32" sap:label="Count" sap:aggregation-role="measure"/>
+                <Property Name="TargetAgingDays" Type="Edm.Decimal" Precision="10" Scale="2" sap:aggregation-role="measure"/>
                 <Property Name="AgingCriticality" Type="Edm.Byte"/>
             </EntityType>
             <EntityContainer Name="ZC_JIPV4_AGING_CDS_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
-                <EntitySet Name="ZC_JIPV4_AGING" EntityType="ZC_JIPV4_AGING_CDS.ZC_JIPV4_AGINGType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_JIPV4_AGING" EntityType="ZC_JIPV4_AGING_CDS.ZC_JIPV4_AGINGType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:semantics="aggregate" sap:content-version="1"/>
             </EntityContainer>
             <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
             <Annotations Target="ZC_JIPV4_AGING_CDS.ZC_JIPV4_AGING_CDS_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">

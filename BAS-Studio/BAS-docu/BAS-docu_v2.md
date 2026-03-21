@@ -45,7 +45,7 @@ SAP Fiori Overview Page (OVP) application for JIP Parts Milestone Aging monitori
 ║                              ║  OK / 60+ / 70+           ║  [STACKED COLUMN]        ║
 ╠══════════════════════════════╬═══════════════════════════╬══════════════════════════╣
 ║  CARD 04                     ║  CARD 05                  ║  CARD 06                 ║
-║  Activity Type by Plant      ║  Monthly Trend            ║  Avg Aging vs Target     ║
+║  Activity Type by Plant      ║  Monthly Trend            ║  Pending by Activity     ║
 ║  [BAR STACKED by Activity]   ║  [STACKED COLUMN]         ║  [COMBINATION bar+line]  ║
 ╠══════════════════════════════╩═══════════════════════════╬══════════════════════════╣
 ║  CARD 07                                                 ║  CARD 08                 ║
@@ -76,7 +76,7 @@ SAP Fiori Overview Page (OVP) application for JIP Parts Milestone Aging monitori
 | 03 | `card03_AgingPerPlant` | `charts.analytical` | ColumnStacked | **SVOpenItems** | `ChartAgingPerPlant` | **+SVOpenItems, +nav** |
 | 04 | `card04_ActivityBreakdown` | `charts.analytical` | **BarStacked** | SVOpenItems | `ChartActivityBreakdown` | **Chart → BAR_STACKED** |
 | 05 | `card05_MonthlyTrend` | `charts.analytical` | ColumnStacked | SVOpenItems | `ChartMonthlyTrend` | — |
-| 06 | `card06_AvgAging` | `charts.analytical` | Combination | **SVOpenItems** | `ChartAvgAgingWithTarget` | **+SVOpenItems, +nav** |
+| 06 | `card06_PendingByActivity` | `charts.analytical` | **Combination** | **SVOpenItems** | `ChartPendingByActivity` | **Redesigned: Pending by Activity vs Target** |
 | 07 | `card07_AgingTable` | **`table`** | Table | **SVOpenItems** | `DefaultSort` / `LineItem` | **Redesigned** |
 | 08 | `card08_ActivityAgingTable` | **`table`** | Table | **SVOpenItems** | `PVChartActivity` / `LineItem` | **Redesigned** |
 
@@ -124,13 +124,16 @@ SAP Fiori Overview Page (OVP) application for JIP Parts Milestone Aging monitori
 - **Filter:** SVOpenItems
 - **Shows:** Monthly JIP volume trend by activity type
 
-### Card 06 — Average Aging vs Target
+### Card 06 — Pending Items by Activity vs Target
 - **Type:** Combination (Bar + Line)
-- **X-Axis:** PeriodMonth
-- **Bars:** AgingRelease (actual avg aging days)
-- **Line:** TargetAgingDays (target per Activity Type, default 15 days)
-- **Filter:** SVOpenItems
-- **Shows:** Actual aging compared against fixed target
+- **X-Axis:** ActivityType (ADD, SER, OVH, USW, etc.)
+- **Bars (1st measure):** RecordCount (count of pending JIP parts)
+- **Line (2nd measure):** TargetAgingDays (target per Activity Type, default 15 days)
+- **Filter:** SVOpenItems (excludes GI-completed items)
+- **Chart Qualifier:** `ChartPendingByActivity`
+- **PV Qualifier:** `PVPendingByActivity`
+- **Shows:** Count of open JIP items per activity type, with a target line overlay
+- **Note:** Originally used `SVPendingOnly` (CurrentMilestone='PENDING') but changed to `SVOpenItems` because `SVPendingOnly` returned zero records in test data, causing a blank card
 
 ### Card 07 — Total Aging Table
 - **Type:** Table

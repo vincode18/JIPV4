@@ -8,6 +8,8 @@
 
 @Metadata.allowExtensions: true
 
+@Analytics.dataCategory: #CUBE
+
 define view ZC_JIPV4_AGING
   as select from ZI_JIPV4_PartsComposite
 {
@@ -66,8 +68,10 @@ define view ZC_JIPV4_AGING
       PeriodYear,
 
       -- === MEASURES — keep aggregation (SUM) for charts ===
+      @DefaultAggregation: #SUM
       RecordCount,
 
+      @DefaultAggregation: #AVG
       TargetAgingDays,
 
       -- Criticality (still in CDS — needed by MDE references)
