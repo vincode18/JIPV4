@@ -41,8 +41,8 @@
                 <Property Name="ReservationNumber" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="NonNegative" sap:label="Reservation" sap:quickinfo="Number of reservation/dependent requirements"/>
                 <Property Name="ReservationItem" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="NonNegative" sap:label="Item no." sap:quickinfo="Item Number of Reservation / Dependent Requirements"/>
                 <Property Name="ReservationCategory" Type="Edm.String" Nullable="false" MaxLength="1" sap:display-format="UpperCase" sap:label="Record type"/>
-                <Property Name="WorkOrderNumber" Type="Edm.String" MaxLength="12" sap:display-format="NonNegative" sap:label="Order" sap:quickinfo="Order Number"/>
-                <Property Name="MaterialNumber" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
+                <Property Name="WorkOrderNumber" Type="Edm.String" MaxLength="12" sap:display-format="NonNegative" sap:label="Order" sap:quickinfo="Order Number" sap:aggregation-role="dimension"/>
+                <Property Name="MaterialNumber" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number" sap:aggregation-role="dimension"/>
                 <Property Name="ABCIndicator" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="ABC Indicator" sap:quickinfo="ABC Indicator for Technical Object"/>
                 <Property Name="Plant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant" sap:aggregation-role="dimension"/>
                 <Property Name="StorageLocation" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Storage Location"/>

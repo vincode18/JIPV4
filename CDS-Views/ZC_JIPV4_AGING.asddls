@@ -20,10 +20,8 @@ define view ZC_JIPV4_AGING
   key ReservationItem,
   key ReservationCategory,
 
-      -- === ID / DIMENSION FIELDS — skip aggregation ===
-      @DefaultAggregation: #NONE
+      -- === ID / DIMENSION FIELDS ===
       WorkOrderNumber,
-      @DefaultAggregation: #NONE
       MaterialNumber,
       ABCIndicator,
 

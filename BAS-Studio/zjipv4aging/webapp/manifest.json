@@ -244,8 +244,7 @@
           "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
           "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AgingDetail",
           "sortBy": "Plant",
-          "sortOrder": "ascending",
-          "addODataSelect": true
+          "sortOrder": "ascending"
         }
       }
 

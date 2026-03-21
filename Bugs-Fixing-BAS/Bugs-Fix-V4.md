@@ -338,10 +338,188 @@ When user filters by Plant (e.g., JKT) and PeriodMonth (e.g., 2025-10), Card 08 
 
 ---
 
+---
+
+# Bug Fix #3 — Card 08 "Total Aging Table" Shows "No data" (Detail View)
+
+- **Date:** 2026-03-22
+- **Card:** Card 08 — Total Aging Table
+- **Symptom:** Card 08 shows column headers (Order, Material, Plant, MaintActivityType) but displays "No data" — no rows are returned.
+- **Status:** FIXED
+
+## Root Cause Analysis
+
+### 1. Analytical Entity Set (`sap:semantics="aggregate"`)
+
+The OData EntitySet `ZC_JIPV4_AGING` is defined with `sap:semantics="aggregate"` in `metadata.xml`. This means the OData service treats it as an **analytical query** — it automatically applies `GROUP BY` on dimension fields and aggregates measure fields.
+
+**Critical rule:** In an analytical entity set, OData can **only fetch fields** that have `sap:aggregation-role="dimension"` or `sap:aggregation-role="measure"`. Fields without this annotation are invisible to the OData query and cannot be selected.
+
+### 2. Missing Dimension Annotations
+
+`WorkOrderNumber` and `MaterialNumber` did **NOT** have `sap:aggregation-role="dimension"` in `metadata.xml`:
+
+```xml
+<!-- BEFORE (broken) — no aggregation-role -->
+<Property Name="WorkOrderNumber" Type="Edm.String" MaxLength="12" sap:label="Order"/>
+<Property Name="MaterialNumber" Type="Edm.String" MaxLength="40" sap:label="Material"/>
+```
+
+Meanwhile, fields like `Plant`, `ActivityType`, `CurrentMilestone` already had `sap:aggregation-role="dimension"` — which is why Card 07 (Aging by Activity Type) worked fine using those fields.
+
+### 3. CDS View `@DefaultAggregation: #NONE`
+
+In the backend CDS view `ZC_JIPV4_AGING.asddls`, these fields had `@DefaultAggregation: #NONE`:
+
+```abap
+@DefaultAggregation: #NONE
+WorkOrderNumber,
+@DefaultAggregation: #NONE
+MaterialNumber,
+```
+
+In a `@Analytics.dataCategory: #CUBE` view, `@DefaultAggregation: #NONE` tells the OData framework to **exclude** these fields from analytical queries. The OData service then generates metadata **without** `sap:aggregation-role`, making them unfetchable.
+
+### 4. Two Table Cards on Same Entity Set
+
+Having two `sap.ovp.cards.table` cards pointing to the same EntitySet requires each card to use a **unique `LineItem` qualifier**. Using the default (unqualified) `LineItem` on the second card caused conflicts. Both cards must use distinct qualified LineItems.
+
+## Applied Fix
+
+### Step 1: metadata.xml — Add Dimension Role
+
+Added `sap:aggregation-role="dimension"` to `WorkOrderNumber` and `MaterialNumber`:
+
+```xml
+<!-- AFTER (fixed) — dimension role added -->
+<Property Name="WorkOrderNumber" Type="Edm.String" MaxLength="12"
+          sap:display-format="NonNegative" sap:label="Order"
+          sap:quickinfo="Order Number"
+          sap:aggregation-role="dimension"/>
+
+<Property Name="MaterialNumber" Type="Edm.String" MaxLength="40"
+          sap:display-format="UpperCase" sap:label="Material"
+          sap:quickinfo="Material Number"
+          sap:aggregation-role="dimension"/>
+```
+
+> **Why this works:** Once these fields have `sap:aggregation-role="dimension"`, the OData analytical query includes them in `$select` and `GROUP BY`, allowing the table card to fetch and display the data.
+
+### Step 2: CDS View — Remove `@DefaultAggregation: #NONE`
+
+Removed `@DefaultAggregation: #NONE` from `WorkOrderNumber` and `MaterialNumber` in `ZC_JIPV4_AGING.asddls`:
+
+```abap
+-- BEFORE
+@DefaultAggregation: #NONE
+WorkOrderNumber,
+@DefaultAggregation: #NONE
+MaterialNumber,
+
+-- AFTER (no annotation = treated as dimension in #CUBE view)
+WorkOrderNumber,
+MaterialNumber,
+```
+
+> **Why:** In a `@Analytics.dataCategory: #CUBE` view, fields without `@DefaultAggregation` are treated as dimensions by default. Removing `#NONE` allows the OData service to expose them with `sap:aggregation-role="dimension"` in the live system metadata.
+
+### Step 3: annotation.xml — New LineItem#AgingDetail Qualifier
+
+Created a new `LineItem#AgingDetail` qualifier for Card 08 in `annotation.xml` (local override, highest priority):
+
+```xml
+<!-- Card 08: Total Aging Table — Detail view -->
+<Annotation Term="UI.LineItem" Qualifier="AgingDetail">
+    <Collection>
+        <Record Type="UI.DataField">
+            <PropertyValue Property="Value" Path="WorkOrderNumber"/>
+            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+        </Record>
+        <Record Type="UI.DataField">
+            <PropertyValue Property="Value" Path="MaterialNumber"/>
+            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+        </Record>
+        <Record Type="UI.DataField">
+            <PropertyValue Property="Value" Path="Plant"/>
+            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+        </Record>
+        <Record Type="UI.DataField">
+            <PropertyValue Property="Value" Path="ActivityType"/>
+            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+        </Record>
+        <Record Type="UI.DataField">
+            <PropertyValue Property="Value" Path="CurrentMilestone"/>
+            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+        </Record>
+    </Collection>
+</Annotation>
+```
+
+### Step 4: manifest.json — Card 08 Configuration
+
+Updated Card 08 to use the new `LineItem#AgingDetail` qualifier and removed `addODataSelect`:
+
+```json
+"card08_ActivityAgingTable": {
+  "model": "mainModel",
+  "template": "sap.ovp.cards.table",
+  "settings": {
+    "title": "{{card08_title}}",
+    "subtitle": "{{card08_subtitle}}",
+    "entitySet": "ZC_JIPV4_AGING",
+    "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
+    "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AgingDetail",
+    "sortBy": "Plant",
+    "sortOrder": "ascending"
+  }
+}
+```
+
+### Step 5: Card 07 / Card 08 Swap
+
+Swapped the annotation assignments so each card shows the correct content:
+
+| Card | Title | Qualifier | Columns |
+|------|-------|-----------|---------|
+| Card 07 | Aging by Activity Type | `LineItem#ActivityAging` | Period, Plant, Activity, Status, Items |
+| Card 08 | Total Aging Table | `LineItem#AgingDetail` | Order, Material, Plant, ActivityType, Status |
+
+## Changed Files Summary
+
+| File | Change |
+|------|--------|
+| `metadata.xml` | Added `sap:aggregation-role="dimension"` to `WorkOrderNumber`, `MaterialNumber` |
+| `ZC_JIPV4_AGING.asddls` | Removed `@DefaultAggregation: #NONE` from `WorkOrderNumber`, `MaterialNumber` |
+| `annotation.xml` | Added `LineItem#AgingDetail` qualifier with 5 detail columns |
+| `manifest.json` | Card 08 uses `LineItem#AgingDetail`, removed `addODataSelect` |
+| `i18n.properties` | Swapped Card 07/08 titles and subtitles |
+
+## Key Lesson Learned
+
+> In SAP CDS views with `@Analytics.dataCategory: #CUBE` and OData `sap:semantics="aggregate"`, **every field** that needs to appear in a Fiori OVP table card **must** have an aggregation role:
+> - **Dimension fields** (text/ID): leave without `@DefaultAggregation` or use `@DefaultAggregation: #NOP` — do NOT use `#NONE`
+> - **Measure fields** (numbers to aggregate): use `@DefaultAggregation: #SUM`, `#AVG`, etc.
+> - Fields with `@DefaultAggregation: #NONE` are **excluded** from analytical OData queries and will cause "No data" on cards that reference them.
+
+## User Experience (After Fix)
+
+Card 08 "Total Aging Table" now shows detail rows:
+
+| Order | Material | Plant | MaintActivityType | Status |
+|-------|----------|-------|-------------------|--------|
+| 51366942 | 01010-80835 | JKT | MID | PENDING |
+| 51366944 | 06300-23130 | JKT | MID | PENDING |
+| 51366944 | 1496559 | JKT | MID | TR_REQUEST |
+| 51366944 | 01010-80835 | JKT | MID | PENDING |
+| 51366944 | 195-30-07110 | JKT | MID | PENDING |
+
+---
+
 ## Backend Activation Checklist
 
 After updating the files, the following must be activated on the ABAP backend (ADT/Eclipse):
 
-- [ ] `ZC_JIPV4_AGING` — CDS consumption view (for `@DefaultAggregation: #AVG`)
-- [ ] `ZE_JIPV4_AGING` — MDE (for Card 06 + Card 08 changes)
+- [ ] `ZC_JIPV4_AGING` — CDS consumption view (removed `@DefaultAggregation: #NONE` from WorkOrderNumber, MaterialNumber)
+- [ ] `ZE_JIPV4_AGING` — MDE (for Card 06 + Card 08 annotation changes)
+- [ ] Regenerate metadata on live system to confirm `sap:aggregation-role="dimension"` appears for WorkOrderNumber and MaterialNumber
 - [ ] Restart BAS preview + hard refresh browser (`Ctrl+Shift+R`)
