@@ -4,8 +4,8 @@
 @VDM.viewType: #BASIC
 
 define view entity ZI_JIPV4_EWM_ProductMap
-  as select from mara as MA
+  as select from /scwm/binmat as BM
 {
-  key MA.scm_matid_guid16    as ProductGuid,
-      MA.matnr               as MaterialNumber
+  key BM.matid    as ProductGuid,
+      BM.matnr    as MaterialNumber
 }

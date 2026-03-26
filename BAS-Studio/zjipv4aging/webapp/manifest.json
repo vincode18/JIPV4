@@ -242,7 +242,7 @@
           "subtitle": "{{card08_subtitle}}",
           "entitySet": "ZC_JIPV4_AGING",
           "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
-          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#AgingDetail",
+          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
           "sortBy": "Plant",
           "sortOrder": "ascending"
         }
