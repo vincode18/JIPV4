@@ -220,14 +220,16 @@ annotate view ZC_JIPV4_AGING with
   // =====================================================================
 
   // --- WorkOrderNumber ---
-  @UI.lineItem: [{ position: 10, importance: #HIGH }]
+  @UI.lineItem: [{ position: 10, importance: #HIGH },
+                { qualifier: 'ActivityAging', position: 10, importance: #HIGH, label: 'Order' }]
   @UI.selectionField: [{ position: 55 }]
   @UI.identification: [{ position: 10 }]
   @UI.fieldGroup: [{ qualifier: 'GrpWorkOrder', position: 10, label: 'Work Order' }]
   WorkOrderNumber;
 
   // --- MaterialNumber ---
-  @UI.lineItem: [{ position: 20, importance: #HIGH }]
+  @UI.lineItem: [{ position: 20, importance: #HIGH },
+                { qualifier: 'ActivityAging', position: 15, importance: #HIGH, label: 'Material' }]
   @UI.identification: [{ position: 20 }]
   MaterialNumber;
 
@@ -337,8 +339,7 @@ annotate view ZC_JIPV4_AGING with
   GINumber;
 
   // --- PeriodMonth ---
-  @UI.lineItem: [{ position: 200, importance: #LOW },
-                { qualifier: 'ActivityAging', position: 10, importance: #HIGH }]
+  @UI.lineItem: [{ position: 200, importance: #LOW }]
   @UI.selectionField: [{ position: 80 }]
   PeriodMonth;
 
@@ -359,7 +360,6 @@ annotate view ZC_JIPV4_AGING with
   EquipmentNumber;
 
   // --- RecordCount ---
-  @UI.lineItem: [{ qualifier: 'ActivityAging', position: 50, importance: #HIGH, label: 'Items' }]
   @UI.dataPoint: { title: 'Count' }
   RecordCount;
 
@@ -368,4 +368,9 @@ annotate view ZC_JIPV4_AGING with
     title: 'Target Aging (Days)'
   }
   TargetAgingDays;
+
+  // --- CurrentAging ---
+  @UI.lineItem: [{ qualifier: 'ActivityAging', position: 60, importance: #HIGH, label: 'Aging Milestone' }]
+  @UI.dataPoint: { title: 'Aging Milestone (Days)' }
+  CurrentAging;
 }

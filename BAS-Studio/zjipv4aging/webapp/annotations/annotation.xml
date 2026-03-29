@@ -115,7 +115,7 @@
                 </Annotation>
 
                 <!-- Card 07: Aging by Activity Type — Summary view -->
-                <Annotation Term="UI.LineItem" Qualifier="ActivityAging">
+                <Annotation Term="UI.LineItem" Qualifier="ActivityAgingSummary">
                     <Collection>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="PeriodMonth"/>
@@ -132,11 +132,13 @@
                             <PropertyValue Property="Label" String="{@i18n>col_activity}"/>
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                         </Record>
+                        <!-- Status column removed from Card 07
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="CurrentMilestone"/>
                             <PropertyValue Property="Label" String="{@i18n>col_status}"/>
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                         </Record>
+                        -->
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="RecordCount"/>
                             <PropertyValue Property="Label" String="{@i18n>col_items}"/>
@@ -145,27 +147,37 @@
                     </Collection>
                 </Annotation>
 
-                <!-- Card 08: Total Aging Table — Detail view -->
-                <Annotation Term="UI.LineItem" Qualifier="AgingDetail">
+                <!-- Card 08: Total Aging Table — 6 columns -->
+                <Annotation Term="UI.LineItem" Qualifier="ActivityAging">
                     <Collection>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="WorkOrderNumber"/>
+                            <PropertyValue Property="Label" String="{@i18n>col_order}"/>
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="MaterialNumber"/>
+                            <PropertyValue Property="Label" String="{@i18n>col_material}"/>
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="Plant"/>
+                            <PropertyValue Property="Label" String="{@i18n>col_plant}"/>
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="ActivityType"/>
+                            <PropertyValue Property="Label" String="{@i18n>col_activity}"/>
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="CurrentMilestone"/>
+                            <PropertyValue Property="Label" String="{@i18n>col_milestone}"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="CurrentAging"/>
+                            <PropertyValue Property="Label" String="{@i18n>col_agingMilestone}"/>
                             <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                         </Record>
                     </Collection>

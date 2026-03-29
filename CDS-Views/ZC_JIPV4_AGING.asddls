@@ -72,6 +72,9 @@ define view ZC_JIPV4_AGING
       @DefaultAggregation: #SUM
       TargetAgingDays,
 
+      @DefaultAggregation: #SUM
+      CurrentAging,
+
       -- Criticality (still in CDS — needed by MDE references)
       case AgingBucket
         when '70+' then 1

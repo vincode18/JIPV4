@@ -70,6 +70,7 @@
                 <Property Name="PeriodYear" Type="Edm.String" MaxLength="4" sap:label="Period Year"/>
                 <Property Name="RecordCount" Type="Edm.Int32" sap:label="Count" sap:aggregation-role="measure"/>
                 <Property Name="TargetAgingDays" Type="Edm.Decimal" Precision="10" Scale="2" sap:aggregation-role="measure"/>
+                <Property Name="CurrentAging" Type="Edm.Decimal" Precision="10" Scale="0" sap:label="Aging Milestone (Days)" sap:aggregation-role="measure"/>
                 <Property Name="AgingCriticality" Type="Edm.Byte"/>
             </EntityType>
             <EntityContainer Name="ZC_JIPV4_AGING_CDS_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">

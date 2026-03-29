@@ -122,6 +122,24 @@
     "resources": {
       "css": []
     },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.ovp.app.Main": {
+            "controllerName": "com.sap.jipv4.zjipv4aging.ext.customFilter.CustomFilterController"
+          }
+        },
+        "sap.ui.viewExtensions": {
+          "sap.ovp.app.Main": {
+            "SmartFilterBarControlConfigurationExtension|ZC_JIPV4_AGING": {
+              "className": "sap.ui.core.Fragment",
+              "fragmentName": "com.sap.jipv4.zjipv4aging.ext.customFilter.CustomFilter",
+              "type": "XML"
+            }
+          }
+        }
+      }
+    },
     "routing": {
       "config": {},
       "routes": [],
@@ -130,6 +148,7 @@
   },
   "sap.ovp": {
     "globalFilterModel": "mainModel",
+    "globalFilterEntitySet": "ZC_JIPV4_AGING",
     "globalFilterEntityType": "ZC_JIPV4_AGINGType",
     "containerLayout": "resizable",
     "enableLiveFilter": true,
@@ -227,7 +246,7 @@
           "subtitle": "{{card07_subtitle}}",
           "entitySet": "ZC_JIPV4_AGING",
           "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
-          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ActivityAging",
+          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ActivityAgingSummary",
           "sortBy": "PeriodMonth",
           "sortOrder": "descending",
           "addODataSelect": true
@@ -242,9 +261,10 @@
           "subtitle": "{{card08_subtitle}}",
           "entitySet": "ZC_JIPV4_AGING",
           "selectionAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionVariant#SVOpenItems",
-          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem",
+          "annotationPath": "com.sap.vocabularies.UI.v1.LineItem#ActivityAging",
           "sortBy": "Plant",
-          "sortOrder": "ascending"
+          "sortOrder": "ascending",
+          "addODataSelect": true
         }
       }
 

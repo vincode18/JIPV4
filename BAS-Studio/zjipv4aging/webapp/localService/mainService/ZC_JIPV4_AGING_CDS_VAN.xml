@@ -550,35 +550,6 @@
                         </Record>
                     </Collection>
                 </Annotation>
-                <Annotation Term="UI.LineItem" Qualifier="ActivityAging">
-                    <Collection>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="PeriodMonth"/>
-                            <PropertyValue Property="Label" String="Period"/>
-                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="Plant"/>
-                            <PropertyValue Property="Label" String="Plant"/>
-                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="ActivityType"/>
-                            <PropertyValue Property="Label" String="Activity"/>
-                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="CurrentMilestone"/>
-                            <PropertyValue Property="Label" String="Status"/>
-                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="RecordCount"/>
-                            <PropertyValue Property="Label" String="Items"/>
-                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
-                        </Record>
-                    </Collection>
-                </Annotation>
                 <Annotation Term="UI.PresentationVariant" Qualifier="PVPendingByActivity">
                     <Record>
                         <PropertyValue Property="Text" String="Pending by Activity"/>
@@ -607,7 +578,7 @@
                                     <PropertyValue Property="Descending" Bool="false"/>
                                 </Record>
                             </Collection>
-                        </PropertyValue>
+                        </PropertyValue>x`
                         <PropertyValue Property="Visualizations">
                             <Collection>
                                 <AnnotationPath>@UI.Chart#ChartAvgAgingWithTarget</AnnotationPath>
@@ -721,10 +692,12 @@
                     <Collection>
                         <PropertyPath>Plant</PropertyPath>
                         <PropertyPath>ActivityType</PropertyPath>
-                        <PropertyPath>WmEwmType</PropertyPath>
                         <PropertyPath>WorkOrderNumber</PropertyPath>
-                        <PropertyPath>PeriodYear</PropertyPath>
+                        <PropertyPath>WmEwmType</PropertyPath>
+                        <PropertyPath>CurrentMilestone</PropertyPath>
+                        <PropertyPath>AgingBucket</PropertyPath>
                         <PropertyPath>PeriodMonth</PropertyPath>
+                        <PropertyPath>PeriodYear</PropertyPath>
                     </Collection>
                 </Annotation>
             </Annotations>

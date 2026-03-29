@@ -170,6 +170,30 @@ define view entity ZI_JIPV4_PartsComposite
               else 15
             end as abap.dec(10,2) )            as TargetAgingDays,
 
+      -- Aging at Current Milestone: days between consecutive milestones
+      -- GI: NPB → GI | NPB: RCV → NPB | RCV: TR → RCV | TR: Release → TR | PENDING: Release → today
+      cast( case
+              when GI.PostingDate is not null and WM_NPB.ConfirmationDate is not null
+                then dats_days_between(WM_NPB.ConfirmationDate, GI.PostingDate)
+              when GI.PostingDate is not null and WO.WOReleaseDate is not null
+                then dats_days_between(WO.WOReleaseDate, GI.PostingDate)
+              when WM_NPB.ConfirmationDate is not null and WM_RCV.ConfirmationDate is not null
+                then dats_days_between(WM_RCV.ConfirmationDate, WM_NPB.ConfirmationDate)
+              when WM_NPB.ConfirmationDate is not null and WM_TR.TOCreationDate is not null
+                then dats_days_between(WM_TR.TOCreationDate, WM_NPB.ConfirmationDate)
+              when WM_NPB.ConfirmationDate is not null and WO.WOReleaseDate is not null
+                then dats_days_between(WO.WOReleaseDate, WM_NPB.ConfirmationDate)
+              when WM_RCV.ConfirmationDate is not null and WM_TR.TOCreationDate is not null
+                then dats_days_between(WM_TR.TOCreationDate, WM_RCV.ConfirmationDate)
+              when WM_RCV.ConfirmationDate is not null and WO.WOReleaseDate is not null
+                then dats_days_between(WO.WOReleaseDate, WM_RCV.ConfirmationDate)
+              when WM_TR.TOCreationDate is not null and WO.WOReleaseDate is not null
+                then dats_days_between(WO.WOReleaseDate, WM_TR.TOCreationDate)
+              when WO.WOReleaseDate is not null
+                then dats_days_between(WO.WOReleaseDate, $session.system_date)
+              else 0
+            end as abap.dec(10,0) )              as CurrentAging,
+
       -- Record Count (DEC to prevent overflow)
       cast(1 as abap.dec(10,0))                as RecordCount,
 

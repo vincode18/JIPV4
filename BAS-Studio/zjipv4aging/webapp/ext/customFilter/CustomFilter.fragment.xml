@@ -1,0 +1,108 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:smartfilterbar="sap.ui.comp.smartfilterbar">
+
+    <!-- Plant: MultiComboBox with dynamic OData binding -->
+    <smartfilterbar:ControlConfiguration id="ccPlant" groupId="_BASIC" key="Plant"
+        label="{i18n>filter_plant}" visibleInAdvancedArea="true">
+        <smartfilterbar:customControl>
+            <MultiComboBox id="customPlantFilter"
+                placeholder="{i18n>filter_plant_placeholder}"
+                items="{
+                    path: '/ZC_JIPV4_AGING',
+                    parameters: { select: 'Plant' },
+                    sorter: { path: 'Plant' }
+                }">
+                <core:Item id="itemPlantTemplate" key="{Plant}" text="{Plant}"/>
+            </MultiComboBox>
+        </smartfilterbar:customControl>
+    </smartfilterbar:ControlConfiguration>
+
+    <!-- Activity Type: MultiComboBox with static items -->
+    <smartfilterbar:ControlConfiguration id="ccActivityType" groupId="_BASIC" key="ActivityType"
+        label="{i18n>filter_activityType}" visibleInAdvancedArea="true">
+        <smartfilterbar:customControl>
+            <MultiComboBox id="customActivityTypeFilter"
+                placeholder="{i18n>filter_activityType_placeholder}">
+                <core:Item id="itemActADD" key="ADD" text="ADD"/>
+                <core:Item id="itemActINS" key="INS" text="INS"/>
+                <core:Item id="itemActLOG" key="LOG" text="LOG"/>
+                <core:Item id="itemActMID" key="MID" text="MID"/>
+                <core:Item id="itemActNME" key="NME" text="NME"/>
+                <core:Item id="itemActOVH" key="OVH" text="OVH"/>
+                <core:Item id="itemActPAP" key="PAP" text="PAP"/>
+                <core:Item id="itemActPPM" key="PPM" text="PPM"/>
+                <core:Item id="itemActSER" key="SER" text="SER"/>
+                <core:Item id="itemActTRS" key="TRS" text="TRS"/>
+                <core:Item id="itemActUIW" key="UIW" text="UIW"/>
+                <core:Item id="itemActUSN" key="USN" text="USN"/>
+            </MultiComboBox>
+        </smartfilterbar:customControl>
+    </smartfilterbar:ControlConfiguration>
+
+    <!-- Aging Bucket: MultiComboBox with static items -->
+    <smartfilterbar:ControlConfiguration id="ccAgingBucket" groupId="_BASIC" key="AgingBucket"
+        label="{i18n>filter_agingBucket}" visibleInAdvancedArea="true">
+        <smartfilterbar:customControl>
+            <MultiComboBox id="customAgingBucketFilter"
+                placeholder="{i18n>filter_agingBucket_placeholder}">
+                <core:Item id="itemBucketOK" key="OK" text="OK"/>
+                <core:Item id="itemBucket60" key="60+" text="60+"/>
+                <core:Item id="itemBucket70" key="70+" text="70+"/>
+            </MultiComboBox>
+        </smartfilterbar:customControl>
+    </smartfilterbar:ControlConfiguration>
+
+    <!-- WM/EWM Type: Custom Switch -->
+    <smartfilterbar:ControlConfiguration id="ccWmEwmType" groupId="_BASIC" key="WmEwmType"
+        label="{i18n>filter_wmEwmType}" visibleInAdvancedArea="true">
+        <smartfilterbar:customControl>
+            <HBox id="hboxWmEwm" alignItems="Center">
+                <Label id="lblWm" text="WM" class="sapUiTinyMarginEnd"/>
+                <Switch id="customWmEwmSwitch"
+                    customTextOn="EWM"
+                    customTextOff="WM"
+                    state="false"/>
+                <Label id="lblEwm" text="EWM" class="sapUiTinyMarginBegin"/>
+            </HBox>
+        </smartfilterbar:customControl>
+    </smartfilterbar:ControlConfiguration>
+
+    <!-- Current Milestone: MultiComboBox with static items -->
+    <smartfilterbar:ControlConfiguration id="ccMilestone" groupId="_BASIC" key="CurrentMilestone"
+        label="{i18n>filter_milestone}" visibleInAdvancedArea="true">
+        <smartfilterbar:customControl>
+            <MultiComboBox id="customMilestoneFilter"
+                placeholder="{i18n>filter_milestone_placeholder}">
+                <core:Item id="itemMsPENDING" key="PENDING" text="PENDING"/>
+                <core:Item id="itemMsTR" key="TR" text="TR"/>
+                <core:Item id="itemMsRECEIVED" key="RECEIVED" text="RECEIVED"/>
+                <core:Item id="itemMsGI" key="GI" text="GI"/>
+            </MultiComboBox>
+        </smartfilterbar:customControl>
+    </smartfilterbar:ControlConfiguration>
+
+    <!-- PeriodMonth: MultiComboBox with static months -->
+    <smartfilterbar:ControlConfiguration id="ccPeriodMonth" groupId="_BASIC" key="PeriodMonth"
+        label="{i18n>filter_periodMonth}" visibleInAdvancedArea="true">
+        <smartfilterbar:customControl>
+            <MultiComboBox id="customPeriodMonthFilter"
+                placeholder="{i18n>filter_periodMonth_placeholder}">
+                <core:Item id="itemMonth01" key="01" text="01 - January"/>
+                <core:Item id="itemMonth02" key="02" text="02 - February"/>
+                <core:Item id="itemMonth03" key="03" text="03 - March"/>
+                <core:Item id="itemMonth04" key="04" text="04 - April"/>
+                <core:Item id="itemMonth05" key="05" text="05 - May"/>
+                <core:Item id="itemMonth06" key="06" text="06 - June"/>
+                <core:Item id="itemMonth07" key="07" text="07 - July"/>
+                <core:Item id="itemMonth08" key="08" text="08 - August"/>
+                <core:Item id="itemMonth09" key="09" text="09 - September"/>
+                <core:Item id="itemMonth10" key="10" text="10 - October"/>
+                <core:Item id="itemMonth11" key="11" text="11 - November"/>
+                <core:Item id="itemMonth12" key="12" text="12 - December"/>
+            </MultiComboBox>
+        </smartfilterbar:customControl>
+    </smartfilterbar:ControlConfiguration>
+
+</core:FragmentDefinition>

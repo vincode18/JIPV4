@@ -7,6 +7,23 @@ Replace `'BJM'` with your plant code. Run each query in SAP SQL Console.
 ```sql
 /SCWM/ORDIM_C
 TANUM = 300198
+
+===EWM WO
+WO: 51362354
+WT: 300198
+WHO Created : 300000159
+I:ZSTP:000 WHO Created : 300000160
+I:ZSTP:000 WHO Created : 300000162
+
+
+===WM CLASSIC
+WO: 51365300
+TR Created : 0000414378
+TO : 1565450
+
+TR Created : 0000414375
+TO: 1565447
+GI: M7 060 4928000136 2026
 ```
 
 ## Test 1 — ZI_JIPV4_Reservation
@@ -188,6 +205,19 @@ SELECT
   GINumber
 FROM ZI_JIPV4_PartsComposite
 WHERE WorkOrderNumber = '000051365300'
+-- OR WorkOrderNumber = '000050717695'
+
+SELECT
+  ReservationNumber,
+  WorkOrderNumber,
+  MaterialNumber,
+  WmEwmType,
+  CurrentMilestone,
+  AgingBucket,
+  WarehouseNumber,
+  GINumber
+FROM ZI_JIPV4_PartsComposite
+WHERE WorkOrderNumber = '000050717695'
 ```
 
 ---
@@ -222,3 +252,36 @@ FROM ZC_JIPV4_AGING
 WHERE GINumber = '4928000136'
   AND MaterialNumber = '02896-11008'
 ```
+
+---
+
+## Test 10 — CurrentAging Field Verification (Card 08)
+
+Verify `CurrentAging` returns 6 days for WO 51365300 / material 600-211-1231 (NPB milestone).
+
+```sql
+SELECT
+  WorkOrderNumber,
+  MaterialNumber,
+  Plant,
+  WmEwmType,
+  CurrentMilestone,
+  CurrentAging
+FROM ZI_JIPV4_PartsComposite
+WHERE WorkOrderNumber = '0000 '
+```
+
+```sql
+SELECT
+  WorkOrderNumber,
+  MaterialNumber,
+  Plant,
+  WmEwmType,
+  CurrentMilestone,
+  CurrentAging,
+  AgingBucket
+FROM ZC_JIPV4_AGING
+WHERE WorkOrderNumber = '000051365300'
+```
+
+Expected result: `CurrentAging = 6`, `CurrentMilestone = NPB`
